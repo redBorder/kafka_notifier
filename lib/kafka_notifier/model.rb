@@ -39,7 +39,7 @@ module Redborder
 
         Redborder::KafkaNotifier.send(
           acts_as_kafka_notifier_options[:topic],
-          message[acts_as_kafka_notifier_options[:key_field]],
+          message[:data][acts_as_kafka_notifier_options[:key]],
           message
         )
       end

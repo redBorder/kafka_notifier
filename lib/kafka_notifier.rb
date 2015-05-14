@@ -23,14 +23,20 @@ require 'kafka_notifier/message_queue'
 module Redborder
   module KafkaNotifier
     mattr_accessor :config
+    mattr_accessor :partitioner
     mattr_accessor :producer
     mattr_accessor :message_queue
+
+    self.partitioner = proc do |key, partition_count|
+      Zlib.crc32(key) % partition_count
+    end
 
     self.config = YAML.load(File.read('config/kafka.yml')).symbolize_keys
 
     def self.start
       self.producer = Poseidon::Producer.new(
-        config[:brokers], config[:client_id], type: :sync, required_acks: 1
+        config[:brokers], config[:client_id], type: :sync,
+        required_acks: 1, partitioner: partitioner
       )
 
       self.message_queue = MessageQueue.new(500, 1)

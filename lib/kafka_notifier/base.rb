@@ -43,9 +43,9 @@ module Redborder
           notify_on_create: true,
           notify_on_update: true,
           notify_on_destroy: true,
-          key_field: nil,
           filter: nil,
-          merge: nil
+          merge: nil,
+          key: nil
         }
       end
     end
