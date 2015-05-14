@@ -1,0 +1,3 @@
+client_id: kafka_notifier
+brokers:
+  - hostname:9092
